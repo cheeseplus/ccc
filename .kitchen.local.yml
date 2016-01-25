@@ -1,0 +1,39 @@
+# Kitche+Vagrant doc: https://github.com/test-kitchen/kitchen-vagrant/blob/master/README.md
+driver:
+  name: vagrant
+  # Mount local /Users/apop/chef-kits folder as /mnt/share on the VM
+  synced_folders:
+  - ['~/chef-kits', '/mnt/share', 'disabled: false']
+  customize:
+    cpus: 1
+    memory: 1536
+  vm_hostname: kitchen-cc.opschef.tv
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: 12.5.1
+  chef_omnibus_url: file:///mnt/share/install_chef_rpm.sh
+  client_rb:
+    minimal_ohai: true
+
+verifier:
+  name: inspec
+  sudo: true
+
+platforms:
+  - name: centos67
+    driver:
+      box: 'bento/centos-6.7'
+      network:
+      - ['private_network', {ip: '192.168.56.51'}]
+
+suites:
+  - name: default
+    run_list:
+      - recipe[ccc::upgrade]
+    attributes:
+      ccc:
+        package_url: file:///mnt/share/cc/chef-compliance-0.9.5-1.el6.x86_64.rpm
+        package2_url: file:///mnt/share/cc/chef-compliance-0.9.10-1.el6.x86_64.rpm
+        initial_user: admin
+        initial_pass: admin

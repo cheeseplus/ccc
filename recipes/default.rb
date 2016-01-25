@@ -1,10 +1,10 @@
-if node['compliance_omnibus']['package_url']
-  pkgname = ::File.basename(node['compliance_omnibus']['package_url'])
+if node['ccc']['package_url']
+  pkgname = ::File.basename(node['ccc']['package_url'])
   cache_path = ::File.join(Chef::Config[:file_cache_path], pkgname).gsub(/~/, '-')
 
   # recipe
   remote_file cache_path do
-    source node['compliance_omnibus']['package_url']
+    source node['ccc']['package_url']
     mode '0644'
     action :create
   end
@@ -12,9 +12,9 @@ end
 
 case node['platform_family']
 when 'debian'
-  node.default['apt-chef']['repo_name'] = node['compliance_omnibus']['package_repo']
+  node.default['apt-chef']['repo_name'] = node['ccc']['package_repo']
 when 'rhel'
-  node.default['yum-chef']['repositoryid'] = node['compliance_omnibus']['package_repo']
+  node.default['yum-chef']['repositoryid'] = node['ccc']['package_repo']
 end
 
 directory '/etc/chef-compliance' do
@@ -35,20 +35,20 @@ end
 chef_ingredient 'compliance' do
   ctl_command '/opt/chef-compliance/bin/chef-compliance-ctl'
   # Prefer package_url if set over custom repository
-  if node['compliance_omnibus']['package_url']
-    Chef::Log.info "Using Compliance package source: #{node['compliance_omnibus']['package_url']}"
+  if node['ccc']['package_url']
+    Chef::Log.info "*** Using Compliance package source: #{node['ccc']['package_url']}"
     package_source cache_path
   else
-    Chef::Log.info "Using CHEF's public repository #{node['compliance_omnibus']['package_repo']}"
-    version node['compliance_omnibus']['package_version']
+    Chef::Log.info "*** Using CHEF's public repository #{node['ccc']['package_repo']}"
+    version node['ccc']['package_version']
   end
-  action :install
+  action [:install, :reconfigure]
   notifies :run, 'execute[adduser]'
 end
 
 execute 'adduser' do
-  environment('INITIAL_USER' => node['compliance_omnibus']['initial_user'],
-              'INITIAL_PASS' => node['compliance_omnibus']['initial_pass'])
+  environment('INITIAL_USER' => node['ccc']['initial_user'],
+              'INITIAL_PASS' => node['ccc']['initial_pass'])
   command <<-EOH
     chef-compliance-ctl user-create "$INITIAL_USER" "$INITIAL_PASS"
     chef-compliance-ctl restart

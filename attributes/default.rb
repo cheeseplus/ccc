@@ -1,4 +1,5 @@
 default['compliance_omnibus']['package_url'] = nil
+default['compliance_omnibus']['package2_url'] = nil
 default['compliance_omnibus']['package_version'] = :latest
 default['compliance_omnibus']['package_repo'] = 'chef-stable'
 
