@@ -33,6 +33,7 @@ file '/etc/chef-compliance/chef-compliance.rb' do
   notifies :reconfigure, 'chef_ingredient[compliance]'
 end
 
+# Install Chef Compliance
 chef_ingredient 'compliance' do
   ctl_command '/opt/chef-compliance/bin/chef-compliance-ctl'
   # Prefer package_url if set over custom repository
@@ -43,10 +44,11 @@ chef_ingredient 'compliance' do
     Chef::Log.warn "*** Using CHEF's public repository '#{node['ccc']['package_repo']}' to install version '#{node['ccc']['package_version']}'"
     version node['ccc']['package_version']
   end
-  action [:install, :reconfigure]
+  action [node['ccc']['action'], :reconfigure]
   notifies :run, 'execute[adduser]'
 end
 
+# Raise an error if the initial user attributes are not set
 %w( initial_user initial_pass ).each do |attr|
   unless node['ccc'][attr].is_a?(String) && node['ccc'][attr].length>0
     raise "You did not set the a value for node['ccc']['#{attr}']!"

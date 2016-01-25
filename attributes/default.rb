@@ -7,6 +7,9 @@ default['ccc']['package_version'] = '0.9.7'
 default['ccc']['package2_version'] = :latest
 default['ccc']['package_repo'] = 'chef-stable'
 
-# Attributes to help
+# Attributes required for the initial user creation
 default['ccc']['initial_user'] = nil
 default['ccc']['initial_pass'] = nil
+
+# Leave this on :install
+default['ccc']['action'] = :install
