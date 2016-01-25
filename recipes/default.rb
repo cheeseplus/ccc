@@ -2,7 +2,8 @@ if node['ccc']['package_url']
   pkgname = ::File.basename(node['ccc']['package_url'])
   cache_path = ::File.join(Chef::Config[:file_cache_path], pkgname).gsub(/~/, '-')
 
-  # recipe
+  Chef::Log.warn "*** Downloading Chef Compliance package '#{pkgname}'"
+
   remote_file cache_path do
     source node['ccc']['package_url']
     mode '0644'
@@ -36,14 +37,20 @@ chef_ingredient 'compliance' do
   ctl_command '/opt/chef-compliance/bin/chef-compliance-ctl'
   # Prefer package_url if set over custom repository
   if node['ccc']['package_url']
-    Chef::Log.info "*** Using Compliance package source: #{node['ccc']['package_url']}"
+    Chef::Log.warn "*** Using Compliance package source: #{node['ccc']['package_url']}"
     package_source cache_path
   else
-    Chef::Log.info "*** Using CHEF's public repository #{node['ccc']['package_repo']}"
+    Chef::Log.warn "*** Using CHEF's public repository '#{node['ccc']['package_repo']}' to install version '#{node['ccc']['package_version']}'"
     version node['ccc']['package_version']
   end
   action [:install, :reconfigure]
   notifies :run, 'execute[adduser]'
+end
+
+%w( initial_user initial_pass ).each do |attr|
+  unless node['ccc'][attr].is_a?(String) && node['ccc'][attr].length>0
+    raise "You did not set the a value for node['ccc']['#{attr}']!"
+  end
 end
 
 execute 'adduser' do

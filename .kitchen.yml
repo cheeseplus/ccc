@@ -32,3 +32,9 @@ suites:
     run_list:
       - recipe[ccc::default]
     attributes:
+    attributes:
+      ccc:
+        package_version: 0.9.7
+        package2_version: :latest
+        initial_user: admin
+        initial_pass: heu29DQR1tw-w9gz

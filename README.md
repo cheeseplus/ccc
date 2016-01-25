@@ -2,17 +2,11 @@ ccc Cookbook
 ==============================
 Cookbook to install and upgrade `chef-compliance`
 
-e.g.
-This cookbook makes your favorite breakfast sandwich.
 
-Requirements
+How to use it:
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+Run `ccc::default` and it will install or upgrade to the Chef Compliance package specified via `node['ccc']['package_url']` or `node['ccc']['package_version']`
 
-e.g.
-#### packages
-- `toaster` - ccc needs toaster to brown your bagel.
-
-Attributes
-----------
-TODO: List your cookbook attributes here.
+Run `ccc::upgrade` and it will:
+* install Chef Compliance from `node['ccc']['package_url']` or `node['ccc']['package_version']` if not already installed
+* upgrade Chef Compliance from `node['ccc']['package2_url']` or `node['ccc']['package2_version']` if already installed
