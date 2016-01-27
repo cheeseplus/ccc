@@ -97,5 +97,5 @@ class ComplianceServer < Chef::Resource
     end
   end
 
-  ### TODO: :uninstall Chef Compliance
+  ### TODO: :uninstall Chef Compliance action
 end

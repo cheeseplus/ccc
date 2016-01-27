@@ -9,4 +9,8 @@ default['ccc']['package_repo'] = 'chef-stable'
 default['ccc']['initial_user'] = nil
 default['ccc']['initial_pass'] = nil
 
+# The action to be taken by the `compliance_server` resources
+default['ccc']['action'] = 'install'
+
+# Hash that generates the Chef Compliance configuration file
 default['ccc']['config'] = {}

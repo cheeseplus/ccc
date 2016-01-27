@@ -23,4 +23,6 @@ class ComplianceUser < Chef::Resource
       end
     end
   end
+
+  ### TODO: :remove action
 end

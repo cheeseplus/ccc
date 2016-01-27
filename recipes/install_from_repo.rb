@@ -4,5 +4,5 @@ compliance_server 'from-repo' do
   admin_user node['ccc']['initial_user']
   admin_pass node['ccc']['initial_pass']
   config node['ccc']['config'].to_hash
-  action :install
+  action node['ccc']['action'].to_sym
 end
