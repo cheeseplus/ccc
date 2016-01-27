@@ -30,10 +30,9 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[ccc::upgrade]
+      - recipe[ccc::install_from_url]
     attributes:
       ccc:
         package_url: file:///mnt/share/cc/chef-compliance-0.9.10-1.el6.x86_64.rpm
-        package2_url: file:///mnt/share/cc/chef-compliance-0.9.11-1.el6.x86_64.rpm
         initial_user: admin
         initial_pass: admin

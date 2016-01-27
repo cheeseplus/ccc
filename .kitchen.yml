@@ -30,11 +30,11 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[ccc::upgrade]
+      - recipe[ccc::default]
     attributes:
     attributes:
       ccc:
-        package_url: https://packagecloud.io/chef/stable/packages/el/6/chef-compliance-0.9.5-1.el6.x86_64.rpm/download
-        package2_url: https://packagecloud.io/chef/stable/packages/el/6/chef-compliance-0.9.11-1.el6.x86_64.rpm/download
+        package_version: 'latest'
+        package_repo: 'chef-stable'
         initial_user: admin
         initial_pass: hEu29zDQR1tw8
