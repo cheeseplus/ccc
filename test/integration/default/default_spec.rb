@@ -7,5 +7,5 @@ describe user('chef-compliance') do
 end
 
 describe file('/opt/chef-compliance/version-manifest.txt') do
-  its('content') { should match 'chef-compliance 0\.9\.\d' }
+  its('content') { should match 'chef-compliance 1\.3\.\d' }
 end

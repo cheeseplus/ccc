@@ -6,7 +6,7 @@ class ComplianceServer < Chef::Resource
   property :admin_pass, String
   property :package_url, String
   property :config, Hash, default: {}
-  property :package_repo, String, default: 'chef-stable'
+  property :package_channel, Symbol, default: :stable
   property :package_version, String, default: 'latest'
 
   #########
@@ -29,13 +29,6 @@ class ComplianceServer < Chef::Resource
             mode '0644'
             action :create
           end
-        end
-
-        case node['platform_family']
-        when 'debian'
-          node.default['apt-chef']['repo_name'] = package_repo
-        when 'rhel'
-          node.default['yum-chef']['repositoryid'] = package_repo
         end
 
         directory '/etc/chef-compliance' do
@@ -63,12 +56,14 @@ class ComplianceServer < Chef::Resource
             Chef::Log.warn "*** Using Compliance package: #{package_url}"
             package_source cache_path
           else
-            Chef::Log.warn "*** Using CHEF's public repository '#{package_repo}' to install version '#{package_version}"
+            Chef::Log.warn "*** Using CHEF's public repository '#{package_channel}' to install version '#{package_version}"
             version package_version
+            channel package_channel
           end
           ctl_command '/opt/chef-compliance/bin/chef-compliance-ctl'
           notifies :create, "compliance_user[#{admin_user}]"
           action actions_array
+          accept_license true
         end
 
         # Custom resource defined in this cookbook

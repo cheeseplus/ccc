@@ -3,7 +3,7 @@ default['ccc']['package_url'] = nil
 
 # Specify the package version to install from CHEF's public repo
 default['ccc']['package_version'] = 'latest'
-default['ccc']['package_repo'] = 'chef-stable'
+default['ccc']['package_channel'] = 'stable'
 
 # Attributes required for the initial user creation
 default['ccc']['initial_user'] = nil

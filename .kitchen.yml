@@ -14,18 +14,15 @@ verifier:
   sudo: true
 
 platforms:
-  - name: centos66
-    driver:
-      box: 'centos-6.6'
   - name: centos67
     driver:
       box: 'bento/centos-6.7'
   - name: centos7
     driver:
-      box: 'bento/centos-7.1'
+      box: 'bento/centos-7.2'
   - name: ubuntu14
     driver:
-      box: 'opscode-ubuntu-14.04'
+      box: 'bento/ubuntu-14.04'
 
 suites:
   - name: default
@@ -35,6 +32,6 @@ suites:
     attributes:
       ccc:
         package_version: 'latest'
-        package_repo: 'chef-stable'
+        package_repo: 'stable'
         initial_user: admin
         initial_pass: hEu29zDQR1tw8
