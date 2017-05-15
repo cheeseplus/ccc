@@ -1,6 +1,6 @@
 compliance_server 'from-repo' do
   package_version node['ccc']['package_version']
-  package_channel node['ccc']['package_channel']
+  package_channel node['ccc']['package_channel'].to_sym
   admin_user node['ccc']['initial_user']
   admin_pass node['ccc']['initial_pass']
   config node['ccc']['config'].to_hash

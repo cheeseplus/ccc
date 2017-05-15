@@ -10,15 +10,15 @@ class ComplianceUser < Chef::Resource
   action :create do
     converge_by 'Create Chef Compliance user' do
       execute 'adduser' do
-        environment('USER' => username,
-                    'PASS' => password)
+        environment('USER' => new_resource.username,
+                    'PASS' => new_resource.password)
         command <<-EOH
           chef-compliance-ctl user-create "$USER" "$PASS"
         EOH
         action :run
         only_if do
-          username.is_a?(String) && username.length > 0 &&
-            password.is_a?(String) && password.length > 0
+          new_resource.username.is_a?(String) && new_resource.username.length > 0 &&
+            new_resource.password.is_a?(String) && new_resource.password.length > 0
         end
       end
     end
